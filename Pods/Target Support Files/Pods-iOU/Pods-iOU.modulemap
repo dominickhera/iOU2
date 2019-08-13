@@ -1,0 +1,6 @@
+framework module Pods_iOU {
+  umbrella header "Pods-iOU-umbrella.h"
+
+  export *
+  module * { export * }
+}
