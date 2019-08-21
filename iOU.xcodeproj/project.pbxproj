@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1BF7900AD8F29DF4EA0049F0 /* Pods_iOU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F54217DE7E8B94A066711BB7 /* Pods_iOU.framework */; };
+		7B597861230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B59785F230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift */; };
+		7B597862230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B597860230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib */; };
+		7B597864230D61D700766607 /* LoanCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B597863230D61D700766607 /* LoanCreateViewController.swift */; };
 		7BC6670322F34F61003BA9B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6670222F34F61003BA9B8 /* AppDelegate.swift */; };
 		7BC6670522F34F61003BA9B8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6670422F34F61003BA9B8 /* ViewController.swift */; };
 		7BC6670822F34F61003BA9B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6670622F34F61003BA9B8 /* Main.storyboard */; };
@@ -95,6 +98,9 @@
 /* Begin PBXFileReference section */
 		15958FEB176C22FE1385D7DF /* Pods_iOUUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOUUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D63298E5595E31CAC1B57A3 /* Pods-iOUUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOUUITests.release.xcconfig"; path = "Target Support Files/Pods-iOUUITests/Pods-iOUUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7B59785F230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanCreateDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B597860230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoanCreateDetailCollectionViewCell.xib; sourceTree = "<group>"; };
+		7B597863230D61D700766607 /* LoanCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanCreateViewController.swift; sourceTree = "<group>"; };
 		7BC666FF22F34F61003BA9B8 /* iOU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC6670222F34F61003BA9B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BC6670422F34F61003BA9B8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -255,6 +261,7 @@
 				7BC6670422F34F61003BA9B8 /* ViewController.swift */,
 				7BC6679722F35FA6003BA9B8 /* MainViewController.swift */,
 				7BC6670622F34F61003BA9B8 /* Main.storyboard */,
+				7B597863230D61D700766607 /* LoanCreateViewController.swift */,
 				7BC6679D22F399EF003BA9B8 /* LoanDetailViewController.swift */,
 				7BC6670C22F34F62003BA9B8 /* Assets.xcassets */,
 				7BC6670E22F34F62003BA9B8 /* LaunchScreen.storyboard */,
@@ -285,6 +292,8 @@
 		7BC6673322F359E1003BA9B8 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				7B59785F230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift */,
+				7B597860230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib */,
 				7BC6679F22F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift */,
 				7BC667A022F39BB7003BA9B8 /* LoanDetailCollectionViewCell.xib */,
 				7BC6673422F35A06003BA9B8 /* AddCollectionViewCell.swift */,
@@ -488,6 +497,7 @@
 				7BC6678422F35C41003BA9B8 /* SF-Pro-Rounded-Bold.otf in Resources */,
 				7BC6676722F35C41003BA9B8 /* SF-Pro-Text-RegularItalic.otf in Resources */,
 				7BC6679222F35C41003BA9B8 /* SF-Pro-Text-ThinItalic.otf in Resources */,
+				7B597862230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib in Resources */,
 				7BC6678222F35C41003BA9B8 /* SF-Pro-Rounded-Heavy.otf in Resources */,
 				7BC6677422F35C41003BA9B8 /* SF-Pro-Text-LightItalic.otf in Resources */,
 				7BC6678722F35C41003BA9B8 /* SF-Pro-Display-HeavyItalic.otf in Resources */,
@@ -620,6 +630,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BC6670522F34F61003BA9B8 /* ViewController.swift in Sources */,
+				7B597861230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift in Sources */,
+				7B597864230D61D700766607 /* LoanCreateViewController.swift in Sources */,
 				7BC6679B22F36CB1003BA9B8 /* LoanCollectionViewCell.swift in Sources */,
 				7BC6670322F34F61003BA9B8 /* AppDelegate.swift in Sources */,
 				7BC6673622F35A06003BA9B8 /* AddCollectionViewCell.swift in Sources */,

@@ -24,6 +24,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navigationController.na
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
          let totalBalanceNib = UINib(nibName: totalBalanceCellIdentifier, bundle: nil)
         collectionView.register(totalBalanceNib, forCellWithReuseIdentifier: totalBalanceCellIdentifier)
         let addNib = UINib(nibName: addCellIdentifier, bundle: nil)
@@ -76,7 +80,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 1:
-            print("add new loan")
+            self.performSegue(withIdentifier: "showCreateLoan", sender: nil)
         case 2:
             self.performSegue(withIdentifier: "showDetail", sender: nil)
         default:
