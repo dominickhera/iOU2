@@ -18,6 +18,7 @@ class LoanDetailViewController: UIViewController {
     private let xInset: CGFloat = 10
     private let topInset: CGFloat = 10
     let cellPercentWidth: CGFloat = 0.8
+    var loan: LoanModel?
     var loanDetailCellIdentifier = "LoanDetailCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     //    @IBOutlet weak var dueDateView: UIView!
@@ -31,27 +32,27 @@ class LoanDetailViewController: UIViewController {
     var loanArray: Array <AnyObject> = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
-        request.returnsObjectsAsFaults = false
-        do {
-            loanArray = try context.fetch(request)
-            let loan = loanArray[selectedIndex] as! NSManagedObject
-            self.loanAmountLabel.text = "$\((loan.value(forKey: "loanAmount"))!)"
-           let loanContact = "\((loan.value(forKey: "loanRecipient"))!)"
-            let dueDate = "\((loan.value(forKey: "dateLabel"))!)"
-            let loanNotes  = "\((loan.value(forKey: "loanNotes"))!)"
-            self.loanDetails.append(loanNotes)
-            self.loanDetails.append(loanContact)
-            self.loanDetails.append(dueDate)
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+//        request.returnsObjectsAsFaults = false
+//        do {
+//            loanArray = try context.fetch(request)
+//            let loan = loanArray[selectedIndex] as! NSManagedObject
+//            self.loanAmountLabel.text = "$\((loan.value(forKey: "loanAmount"))!)"
+//           let loanContact = "\((loan.value(forKey: "loanRecipient"))!)"
+//            let dueDate = "\((loan.value(forKey: "dateLabel"))!)"
+//            let loanNotes  = "\((loan.value(forKey: "loanNotes"))!)"
+        loanDetails.append(loan!.loanNotes)
+        loanDetails.append(loan!.loanRecipient)
+        loanDetails.append(loan!.dateLabel)
 //                        for data in loanArray[selectedIndex] as! NSManagedObject {
 //                            print(data)
 //                        }
-        } catch {
-            print("failiure")
-        }
+//        } catch {
+//            print("failiure")
+//        }
         let detailNib = UINib(nibName: loanDetailCellIdentifier, bundle: nil)
         collectionView.register(detailNib, forCellWithReuseIdentifier: loanDetailCellIdentifier)
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }

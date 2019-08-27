@@ -21,9 +21,12 @@ class MainViewController: UIViewController {
     var totalBalanceCellIdentifier = "TotalBalanceCollectionViewCell"
     var addCellIdentifier = "AddCollectionViewCell"
     var loanCellIdentifier = "LoanCollectionViewCell"
+    var filterCellIdentifier = "FilterCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     var selectedIndex = 0
-    var loanArray: Array <AnyObject> = []
+    var totalAmountOwed = 0.0
+//    var loanArray: Array <AnyObject> = []
+    var loanArray: [LoanModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,13 +36,26 @@ class MainViewController: UIViewController {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
         request.returnsObjectsAsFaults = false
         do {
-            loanArray = try context.fetch(request)
-//            for data in result as! [NSManagedObject] {
+            let tempLoanArray = try context.fetch(request)
+            totalAmountOwed = 0.0
+            for data in tempLoanArray as! [NSManagedObject] {
 //                print(data)
-//            }
+                let amountOwed = data.value(forKey: "loanAmount") as! String
+                let loanNotes = data.value(forKey: "loanNotes") as! String
+                let loanRecipient = data.value(forKey: "loanRecipient") as! String
+                let dateLabel = data.value(forKey: "dateLabel") as! String
+                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
+                loanArray.append(newLoan)
+                totalAmountOwed += Double(amountOwed)!
+//                totalAmountOwed += data.value(forKey: "loanAmount") as! Double
+                
+            }
+            
         } catch {
             print("failiure")
         }
+       
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -48,6 +64,8 @@ class MainViewController: UIViewController {
         collectionView.register(totalBalanceNib, forCellWithReuseIdentifier: totalBalanceCellIdentifier)
         let addNib = UINib(nibName: addCellIdentifier, bundle: nil)
         collectionView.register(addNib, forCellWithReuseIdentifier: addCellIdentifier)
+        let filterNib = UINib(nibName: filterCellIdentifier, bundle: nil)
+        collectionView.register(filterNib, forCellWithReuseIdentifier: filterCellIdentifier)
         let loanNib = UINib(nibName: loanCellIdentifier, bundle: nil)
         collectionView.register(loanNib, forCellWithReuseIdentifier: loanCellIdentifier)
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
@@ -71,23 +89,57 @@ class MainViewController: UIViewController {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
         request.returnsObjectsAsFaults = false
         do {
-            loanArray = try context.fetch(request)
-            //            for data in result as! [NSManagedObject] {
-            //                print(data)
-            //            }
+            let tempLoanArray = try context.fetch(request)
+            totalAmountOwed = 0.0
+            for data in tempLoanArray as! [NSManagedObject] {
+                //                print(data)
+                let amountOwed = data.value(forKey: "loanAmount") as! String
+                let loanNotes = data.value(forKey: "loanNotes") as! String
+                let loanRecipient = data.value(forKey: "loanRecipient") as! String
+                let dateLabel = data.value(forKey: "dateLabel") as! String
+                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
+                loanArray.append(newLoan)
+                totalAmountOwed += Double(amountOwed)!
+                //                totalAmountOwed += data.value(forKey: "loanAmount") as! Double
+                
+            }
             self.collectionView.reloadData()
         } catch {
             print("failiure")
         }
     }
+    
+    func sortByHighest(this: LoanModel, that: LoanModel) -> Bool {
+        return (Double(this.loanAmount)!.isLess(than: Double(that.loanAmount) as! Double))
+    }
 
+    func sortByLowest(this: LoanModel, that: LoanModel) -> Bool {
+        return (Double(that.loanAmount)!.isLess(than: Double(this.loanAmount) as! Double))
+    }
+    
+    func sortByNewest(this: LoanModel, that: LoanModel) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        let thisDate = dateFormatter.date(from: this.dateLabel)
+        let thatDate = dateFormatter.date(from: that.dateLabel)
+        return thisDate! > thatDate!
+    }
+    
+    func sortByOldest(this: LoanModel, that: LoanModel) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM d, yyyy"
+        let thisDate = dateFormatter.date(from: this.dateLabel)
+        let thatDate = dateFormatter.date(from: that.dateLabel)
+        return thisDate! < thatDate!
+    }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailViewController = segue.destination as? LoanDetailViewController {
-            detailViewController.selectedIndex = self.selectedIndex
+//            detailViewController.selectedIndex = self.selectedIndex
+            detailViewController.loan = loanArray[self.selectedIndex]
         }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
@@ -96,7 +148,24 @@ class MainViewController: UIViewController {
 
 }
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, sortDelegate {
+    func sortLoansBy(sortMethod: String) {
+        print(sortMethod)
+        switch sortMethod {
+        case "new":
+            loanArray.sort(by: sortByNewest(this:that:))
+        case "old":
+            loanArray.sort(by: sortByOldest(this:that:))
+        case "low":
+            loanArray.sort(by: sortByLowest(this:that:))
+        case "high":
+            loanArray.sort(by: sortByHighest(this:that:))
+        default:
+            return
+        }
+        self.collectionView.reloadData()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -104,6 +173,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return 1
         case 2:
+            return 1
+        case 3:
             return loanArray.count
         default:
             return 0
@@ -115,8 +186,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch indexPath.section {
         case 1:
             self.performSegue(withIdentifier: "showCreateLoan", sender: nil)
-        case 2:
-            self.selectedIndex = indexPath.row
+        case 3:
+            self.selectedIndex = loanArray.count - indexPath.row - 1
             self.performSegue(withIdentifier: "showDetail", sender: nil)
         default:
             break
@@ -125,7 +196,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -135,6 +206,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 70)
         case 2:
+            return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 35)
+        case 3:
             return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 80)
         default:
             break
@@ -147,19 +220,24 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: totalBalanceCellIdentifier, for: indexPath) as! TotalBalanceCollectionViewCell
-            
+            cell.totalAmountOwedLabel.text = "$\(totalAmountOwed)"
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: addCellIdentifier, for: indexPath) as! AddCollectionViewCell
 //            cell.size
             return cell
         case 2:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: filterCellIdentifier, for: indexPath) as! FilterCollectionViewCell
+            //            cell.size
+            cell.delegate = self
+            return cell
+        case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanCellIdentifier, for: indexPath) as! LoanCollectionViewCell
-            let loan = loanArray[indexPath.row] as! NSManagedObject
-            cell.loanAmountLabel.text = "$\((loan.value(forKey: "loanAmount"))!)"
-            cell.loanContactNameLabel.text = "\((loan.value(forKey: "loanRecipient"))!)"
-            cell.loanDueDateLabel.text = "\((loan.value(forKey: "dateLabel"))!)"
-            cell.loanNameLabel.text = "\((loan.value(forKey: "loanNotes"))!)"
+            let loan = loanArray[loanArray.count - indexPath.row - 1]
+            cell.loanAmountLabel.text = "$\((loan.loanAmount))"
+            cell.loanContactNameLabel.text = "\(loan.loanRecipient)"
+            cell.loanDueDateLabel.text = "\((loan.dateLabel))"
+            cell.loanNameLabel.text = "\(loan.loanNotes)"
             //            cell.size
             return cell
         default:
