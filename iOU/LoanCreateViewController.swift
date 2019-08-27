@@ -8,6 +8,7 @@
 
 import UIKit
 import ViewAnimator
+import CoreData
 
 class LoanCreateViewController: UIViewController {
 
@@ -24,7 +25,8 @@ class LoanCreateViewController: UIViewController {
     var loanCreateCellIdentifier = "LoanCreateDetailCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     let loanTitles: [String] = ["Reason", "Lendee", "Due Date"]
-    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25th, 2019"]
+    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25, 2019"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let createNib = UINib(nibName: loanCreateCellIdentifier, bundle: nil)
@@ -40,10 +42,46 @@ class LoanCreateViewController: UIViewController {
             UIView.animate(views: self.collectionView!.orderedVisibleCells,
                            animations: animations, completion: nil)
         }, completion: nil)
+        self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
     }
     
 
+    @IBAction func createNewLoan(_ sender: Any) {
+        let reasonCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! LoanCreateDetailCollectionViewCell
+        let lendeeCell = collectionView.cellForItem(at: IndexPath(row: 1, section: 0)) as! LoanCreateDetailCollectionViewCell
+        let dueDateCell = collectionView.cellForItem(at: IndexPath(row: 2, section: 0)) as! LoanCreateDetailCollectionViewCell
+//        print("amount owed: >\(amountOwedTextField.text)<")
+//        print("reason: >\(reasonCell.detailBodyTextField.text)<")
+//        print("lendee: >\(lendeeCell.detailBodyTextField.text)<")
+//        print("due date: >\(dueDateCell.detailBodyTextField.text)<")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+        let newLoan = NSManagedObject(entity: entity!, insertInto: context)
+        newLoan.setValue("\((self.amountOwedTextField.text)!)", forKey: "loanAmount")
+        newLoan.setValue("\((reasonCell.detailBodyTextField.text)!)", forKey: "loanNotes")
+        newLoan.setValue("\((dueDateCell.detailBodyTextField.text)!)", forKey: "dateLabel")
+            newLoan.setValue("\((lendeeCell.detailBodyTextField.text)!)", forKey: "loanRecipient")
+        do {
+            try context.save()
+        } catch {
+            print("failed to save")
+        }
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                print(data)
+            }
+        } catch {
+            print("failiure")
+        }
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func cancelCreateNewLoan(_ sender: Any) {
         navigationController?.popViewController(animated: true)
         
@@ -71,6 +109,10 @@ extension LoanCreateViewController: UICollectionViewDelegate, UICollectionViewDe
         return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 80)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanCreateCellIdentifier, for: indexPath) as! LoanCreateDetailCollectionViewCell
         cell.detailTitleLabel.text = loanTitles[indexPath.row]
@@ -81,4 +123,15 @@ extension LoanCreateViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:    #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

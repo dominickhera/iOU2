@@ -8,6 +8,7 @@
 
 import UIKit
 import ViewAnimator
+import CoreData
 
 class MainViewController: UIViewController {
 
@@ -21,9 +22,24 @@ class MainViewController: UIViewController {
     var addCellIdentifier = "AddCollectionViewCell"
     var loanCellIdentifier = "LoanCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
+    var selectedIndex = 0
+    var loanArray: Array <AnyObject> = []
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController.na
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+//        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+        request.returnsObjectsAsFaults = false
+        do {
+            loanArray = try context.fetch(request)
+//            for data in result as! [NSManagedObject] {
+//                print(data)
+//            }
+        } catch {
+            print("failiure")
+        }
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -48,13 +64,31 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+        request.returnsObjectsAsFaults = false
+        do {
+            loanArray = try context.fetch(request)
+            //            for data in result as! [NSManagedObject] {
+            //                print(data)
+            //            }
+            self.collectionView.reloadData()
+        } catch {
+            print("failiure")
+        }
+    }
 
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if let detailViewController = segue.destination as? LoanDetailViewController {
+            detailViewController.selectedIndex = self.selectedIndex
+        }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
@@ -70,7 +104,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return 1
         case 2:
-            return 8
+            return loanArray.count
         default:
             return 0
         }
@@ -82,6 +116,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             self.performSegue(withIdentifier: "showCreateLoan", sender: nil)
         case 2:
+            self.selectedIndex = indexPath.row
             self.performSegue(withIdentifier: "showDetail", sender: nil)
         default:
             break
@@ -120,6 +155,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanCellIdentifier, for: indexPath) as! LoanCollectionViewCell
+            let loan = loanArray[indexPath.row] as! NSManagedObject
+            cell.loanAmountLabel.text = "$\((loan.value(forKey: "loanAmount"))!)"
+            cell.loanContactNameLabel.text = "\((loan.value(forKey: "loanRecipient"))!)"
+            cell.loanDueDateLabel.text = "\((loan.value(forKey: "dateLabel"))!)"
+            cell.loanNameLabel.text = "\((loan.value(forKey: "loanNotes"))!)"
             //            cell.size
             return cell
         default:

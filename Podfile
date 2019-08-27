@@ -7,7 +7,7 @@ target 'iOU' do
 
   # Pods for iOU
   pod 'ViewAnimator'
-
+  pod 'IQKeyboardManagerSwift'
 
   target 'iOUTests' do
     inherit! :search_paths

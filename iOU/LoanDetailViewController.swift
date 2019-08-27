@@ -8,6 +8,7 @@
 
 import UIKit
 import ViewAnimator
+import CoreData
 
 class LoanDetailViewController: UIViewController {
 
@@ -23,12 +24,34 @@ class LoanDetailViewController: UIViewController {
 //    @IBOutlet weak var lendeeView: UIView!
 //    @IBOutlet weak var loanReasonView: UIView!
     @IBOutlet weak var loanAmountLabel: UILabel!
-    
+    var selectedIndex = 0
     let loanTitles: [String] = ["Reason", "Lendee", "Due Date"]
-    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25th, 2019"]
+//    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25th, 2019"]
+    var loanDetails: [String] = []
+    var loanArray: Array <AnyObject> = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+        request.returnsObjectsAsFaults = false
+        do {
+            loanArray = try context.fetch(request)
+            let loan = loanArray[selectedIndex] as! NSManagedObject
+            self.loanAmountLabel.text = "$\((loan.value(forKey: "loanAmount"))!)"
+           let loanContact = "\((loan.value(forKey: "loanRecipient"))!)"
+            let dueDate = "\((loan.value(forKey: "dateLabel"))!)"
+            let loanNotes  = "\((loan.value(forKey: "loanNotes"))!)"
+            self.loanDetails.append(loanNotes)
+            self.loanDetails.append(loanContact)
+            self.loanDetails.append(dueDate)
+//                        for data in loanArray[selectedIndex] as! NSManagedObject {
+//                            print(data)
+//                        }
+        } catch {
+            print("failiure")
+        }
         let detailNib = UINib(nibName: loanDetailCellIdentifier, bundle: nil)
         collectionView.register(detailNib, forCellWithReuseIdentifier: loanDetailCellIdentifier)
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
@@ -89,6 +112,7 @@ extension LoanDetailViewController: UICollectionViewDelegate, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanDetailCellIdentifier, for: indexPath) as! LoanDetailCollectionViewCell
+//        let loan = loanArray[selectedIndex] as! NSManagedObject
         cell.detailTitleLabel.text = loanTitles[indexPath.row]
         cell.detailBodyLabel.text = loanDetails[indexPath.row]
         

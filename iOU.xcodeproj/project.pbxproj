@@ -255,6 +255,8 @@
 		7BC6670122F34F61003BA9B8 /* iOU */ = {
 			isa = PBXGroup;
 			children = (
+				7BF2044623156BC000B9F989 /* Models */,
+				7BF20443231565DC00B9F989 /* Extensions */,
 				7BC6673822F35C18003BA9B8 /* Fonts */,
 				7BC6673322F359E1003BA9B8 /* CollectionViewCells */,
 				7BC6670222F34F61003BA9B8 /* AppDelegate.swift */,
@@ -356,6 +358,20 @@
 				7BC6675222F35C40003BA9B8 /* SF-Pro-Text-UltralightItalic.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		7BF20443231565DC00B9F989 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7BF2044623156BC000B9F989 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

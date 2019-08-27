@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G87" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Loan" representedClassName="Loan" syncable="YES" codeGenerationType="class">
         <attribute name="dateLabel" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="loanAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="loanAmount" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="loanNotes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="loanRecipient" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
