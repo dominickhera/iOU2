@@ -20,6 +20,8 @@ class LoanDetailViewController: UIViewController {
     let cellPercentWidth: CGFloat = 0.8
     var loan: LoanModel?
     var loanDetailCellIdentifier = "LoanDetailCollectionViewCell"
+    var editLoanCellIdentifier = "EditDetailCollectionViewCell"
+    var deleteLoanCellIdentifier = "DeleteLoanCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     //    @IBOutlet weak var dueDateView: UIView!
 //    @IBOutlet weak var lendeeView: UIView!
@@ -47,6 +49,7 @@ class LoanDetailViewController: UIViewController {
         loanDetails.append(loan!.loanNotes)
         loanDetails.append(loan!.loanRecipient)
         loanDetails.append(loan!.dateLabel)
+        loanAmountLabel.text = "$\(loan!.loanAmount)"
 //                        for data in loanArray[selectedIndex] as! NSManagedObject {
 //                            print(data)
 //                        }
@@ -55,6 +58,10 @@ class LoanDetailViewController: UIViewController {
 //        }
         let detailNib = UINib(nibName: loanDetailCellIdentifier, bundle: nil)
         collectionView.register(detailNib, forCellWithReuseIdentifier: loanDetailCellIdentifier)
+        let editNib = UINib(nibName: editLoanCellIdentifier, bundle: nil)
+        collectionView.register(editNib, forCellWithReuseIdentifier: editLoanCellIdentifier)
+        let deleteNib = UINib(nibName: deleteLoanCellIdentifier, bundle: nil)
+        collectionView.register(deleteNib, forCellWithReuseIdentifier: deleteLoanCellIdentifier)
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         layout.minimumLineSpacing = lineSpacing
         collectionView.collectionViewLayout.invalidateLayout()
@@ -102,22 +109,49 @@ class LoanDetailViewController: UIViewController {
 
 extension LoanDetailViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 3
+        default:
+            return 1
+        }
+//        return 3
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
+        switch indexPath.section {
+        case 0:
         return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 80)
+            
+        default:
+             return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 60)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.section {
+        case 0:
+            
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanDetailCellIdentifier, for: indexPath) as! LoanDetailCollectionViewCell
 //        let loan = loanArray[selectedIndex] as! NSManagedObject
         cell.detailTitleLabel.text = loanTitles[indexPath.row]
         cell.detailBodyLabel.text = loanDetails[indexPath.row]
         
         return cell
+        case 1:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: editLoanCellIdentifier, for: indexPath) as! EditDetailCollectionViewCell
+            return cell
+        case 2:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: deleteLoanCellIdentifier, for: indexPath) as! DeleteLoanCollectionViewCell
+            return cell
+        default:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: deleteLoanCellIdentifier, for: indexPath) as! DeleteLoanCollectionViewCell
+            return cell
+        }
     }
     
     

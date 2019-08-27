@@ -36,6 +36,7 @@ class MainViewController: UIViewController {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
         request.returnsObjectsAsFaults = false
         do {
+            loanArray.removeAll()
             let tempLoanArray = try context.fetch(request)
             totalAmountOwed = 0.0
             for data in tempLoanArray as! [NSManagedObject] {
@@ -54,7 +55,7 @@ class MainViewController: UIViewController {
         } catch {
             print("failiure")
         }
-       
+       loanArray.sort(by: sortByNewest(this:that:))
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -91,6 +92,7 @@ class MainViewController: UIViewController {
         do {
             let tempLoanArray = try context.fetch(request)
             totalAmountOwed = 0.0
+            loanArray.removeAll()
             for data in tempLoanArray as! [NSManagedObject] {
                 //                print(data)
                 let amountOwed = data.value(forKey: "loanAmount") as! String
@@ -122,7 +124,7 @@ class MainViewController: UIViewController {
         dateFormatter.dateFormat = "MMMM d, yyyy"
         let thisDate = dateFormatter.date(from: this.dateLabel)
         let thatDate = dateFormatter.date(from: that.dateLabel)
-        return thisDate! > thatDate!
+        return thisDate! < thatDate!
     }
     
     func sortByOldest(this: LoanModel, that: LoanModel) -> Bool {
@@ -130,7 +132,7 @@ class MainViewController: UIViewController {
         dateFormatter.dateFormat = "MMMM d, yyyy"
         let thisDate = dateFormatter.date(from: this.dateLabel)
         let thatDate = dateFormatter.date(from: that.dateLabel)
-        return thisDate! < thatDate!
+        return thisDate! > thatDate!
     }
     
     // MARK: - Navigation
@@ -164,6 +166,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return
         }
         self.collectionView.reloadData()
+//        let tempIndexSet = IndexSet(integer: 3)
+//        self.collectionView.reloadSections(tempIndexSet)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
