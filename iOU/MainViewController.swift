@@ -24,38 +24,41 @@ class MainViewController: UIViewController {
     var filterCellIdentifier = "FilterCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     var selectedIndex = 0
-    var totalAmountOwed = 0.0
+//    var totalAmountOwed: Double = 0.00
 //    var loanArray: Array <AnyObject> = []
-    var loanArray: [LoanModel] = []
+//    var loanArray: [LoanModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-//        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
-        request.returnsObjectsAsFaults = false
-        do {
-            loanArray.removeAll()
-            let tempLoanArray = try context.fetch(request)
-            totalAmountOwed = 0.0
-            for data in tempLoanArray as! [NSManagedObject] {
-//                print(data)
-                let amountOwed = data.value(forKey: "loanAmount") as! String
-                let loanNotes = data.value(forKey: "loanNotes") as! String
-                let loanRecipient = data.value(forKey: "loanRecipient") as! String
-                let dateLabel = data.value(forKey: "dateLabel") as! String
-                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
-                loanArray.append(newLoan)
-                totalAmountOwed += Double(amountOwed)!
-//                totalAmountOwed += data.value(forKey: "loanAmount") as! Double
-                
-            }
-            
-        } catch {
-            print("failiure")
-        }
-       loanArray.sort(by: sortByNewest(this:that:))
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+////        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+//        request.returnsObjectsAsFaults = false
+//        do {
+//            loanArray.removeAll()
+//            let tempLoanArray = try context.fetch(request)
+//            totalAmountOwed = 0.0
+//            for data in tempLoanArray as! [NSManagedObject] {
+////                print(data)
+//                let amountOwed = data.value(forKey: "loanAmount") as! String
+//                let loanNotes = data.value(forKey: "loanNotes") as! String
+//                let loanRecipient = data.value(forKey: "loanRecipient") as! String
+//                let dateLabel = data.value(forKey: "dateLabel") as! String
+//                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
+//                loanArray.append(newLoan)
+//                totalAmountOwed += Double(amountOwed) ?? 0
+////                totalAmountOwed += data.value(forKey: "loanAmount") as! Double
+//
+//            }
+//
+//        } catch {
+//            print("failiure")
+//        }
+        
+        LoanManager.shared.retrieveLoanList()
+        LoanManager.shared.loanList.sort(by: LoanManager.shared.sortByNewest(this:that:))
+//        loanArray.sort(by: sortByNewest(this:that:))
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -83,32 +86,36 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("hello")
+    }
     override func viewWillAppear(_ animated: Bool) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
-        request.returnsObjectsAsFaults = false
-        do {
-            let tempLoanArray = try context.fetch(request)
-            totalAmountOwed = 0.0
-            loanArray.removeAll()
-            for data in tempLoanArray as! [NSManagedObject] {
-                //                print(data)
-                let amountOwed = data.value(forKey: "loanAmount") as! String
-                let loanNotes = data.value(forKey: "loanNotes") as! String
-                let loanRecipient = data.value(forKey: "loanRecipient") as! String
-                let dateLabel = data.value(forKey: "dateLabel") as! String
-                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
-                loanArray.append(newLoan)
-                totalAmountOwed += Double(amountOwed)!
-                //                totalAmountOwed += data.value(forKey: "loanAmount") as! Double
-                
-            }
-            self.collectionView.reloadData()
-        } catch {
-            print("failiure")
-        }
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//        //        let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Loan")
+//        request.returnsObjectsAsFaults = false
+//        do {
+//            let tempLoanArray = try context.fetch(request)
+//            totalAmountOwed = 0.0
+//            loanArray.removeAll()
+//            for data in tempLoanArray as! [NSManagedObject] {
+//                let amountOwed = data.value(forKey: "loanAmount") as! String
+//                let loanNotes = data.value(forKey: "loanNotes") as! String
+//                let loanRecipient = data.value(forKey: "loanRecipient") as! String
+//                let dateLabel = data.value(forKey: "dateLabel") as! String
+//                let newLoan = LoanModel(loanAmount: amountOwed, loanNotes: loanNotes, loanRecipient: loanRecipient, dateLabel: dateLabel)
+//                loanArray.append(newLoan)
+//                totalAmountOwed += Double(amountOwed) ?? 0
+//
+//            }
+//            self.collectionView.reloadData()
+//        } catch {
+//            print("failiure")
+//        }
+        LoanManager.shared.retrieveLoanList()
+        self.collectionView.reloadData()
     }
     
     func sortByHighest(this: LoanModel, that: LoanModel) -> Bool {
@@ -141,7 +148,7 @@ class MainViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let detailViewController = segue.destination as? LoanDetailViewController {
 //            detailViewController.selectedIndex = self.selectedIndex
-            detailViewController.loan = loanArray[self.selectedIndex]
+            detailViewController.loan = LoanManager.shared.loanList[self.selectedIndex]
         }
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
@@ -155,13 +162,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         print(sortMethod)
         switch sortMethod {
         case "new":
-            loanArray.sort(by: sortByNewest(this:that:))
+            LoanManager.shared.loanList.sort(by: LoanManager.shared.sortByNewest(this:that:))
         case "old":
-            loanArray.sort(by: sortByOldest(this:that:))
+            LoanManager.shared.loanList.sort(by: LoanManager.shared.sortByOldest(this:that:))
         case "low":
-            loanArray.sort(by: sortByLowest(this:that:))
+            LoanManager.shared.loanList.sort(by: LoanManager.shared.sortByLowest(this:that:))
         case "high":
-            loanArray.sort(by: sortByHighest(this:that:))
+            LoanManager.shared.loanList.sort(by: LoanManager.shared.sortByHighest(this:that:))
         default:
             return
         }
@@ -179,7 +186,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 2:
             return 1
         case 3:
-            return loanArray.count
+            return LoanManager.shared.loanList.count
         default:
             return 0
         }
@@ -191,7 +198,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             self.performSegue(withIdentifier: "showCreateLoan", sender: nil)
         case 3:
-            self.selectedIndex = loanArray.count - indexPath.row - 1
+            self.selectedIndex = LoanManager.shared.loanList.count - indexPath.row - 1
             self.performSegue(withIdentifier: "showDetail", sender: nil)
         default:
             break
@@ -224,11 +231,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: totalBalanceCellIdentifier, for: indexPath) as! TotalBalanceCollectionViewCell
-            cell.totalAmountOwedLabel.text = "$\(totalAmountOwed)"
+            cell.totalAmountOwedLabel.text = String(format: "$%.2f", LoanManager.shared.totalAmountOwed)
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: addCellIdentifier, for: indexPath) as! AddCollectionViewCell
-//            cell.size
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: filterCellIdentifier, for: indexPath) as! FilterCollectionViewCell
@@ -237,7 +243,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loanCellIdentifier, for: indexPath) as! LoanCollectionViewCell
-            let loan = loanArray[loanArray.count - indexPath.row - 1]
+            let loan = LoanManager.shared.loanList[LoanManager.shared.loanList.count - indexPath.row - 1]
             cell.loanAmountLabel.text = "$\((loan.loanAmount))"
             cell.loanContactNameLabel.text = "\(loan.loanRecipient)"
             cell.loanDueDateLabel.text = "\((loan.dateLabel))"

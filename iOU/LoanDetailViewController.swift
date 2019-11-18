@@ -115,7 +115,6 @@ extension LoanDetailViewController: UICollectionViewDelegate, UICollectionViewDe
         default:
             return 1
         }
-//        return 3
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -125,11 +124,23 @@ extension LoanDetailViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-        return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 80)
+            return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 80)
             
         default:
              return CGSize(width: ( UIScreen.main.bounds.width - 3 * xInset), height: 60)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 1:
+            print("case 1")
+        case 2:
+            print("case2")
+        default:
+            break
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -73,6 +73,7 @@
 		7BC6679E22F399EF003BA9B8 /* LoanDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679D22F399EF003BA9B8 /* LoanDetailViewController.swift */; };
 		7BC667A122F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679F22F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift */; };
 		7BC667A222F39BB7003BA9B8 /* LoanDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC667A022F39BB7003BA9B8 /* LoanDetailCollectionViewCell.xib */; };
+		7BD4AF4E238305E80038B64D /* LoanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4AF4D238305E80038B64D /* LoanManager.swift */; };
 		7BF2044B23157A4B00B9F989 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF2044923157A4B00B9F989 /* FilterCollectionViewCell.swift */; };
 		7BF2044C23157A4B00B9F989 /* FilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BF2044A23157A4B00B9F989 /* FilterCollectionViewCell.xib */; };
 		7BF2044E231598E500B9F989 /* Loan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF2044D231598E500B9F989 /* Loan.swift */; };
@@ -175,6 +176,7 @@
 		7BC6679D22F399EF003BA9B8 /* LoanDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailViewController.swift; sourceTree = "<group>"; };
 		7BC6679F22F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BC667A022F39BB7003BA9B8 /* LoanDetailCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoanDetailCollectionViewCell.xib; sourceTree = "<group>"; };
+		7BD4AF4D238305E80038B64D /* LoanManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanManager.swift; sourceTree = "<group>"; };
 		7BF2044923157A4B00B9F989 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		7BF2044A23157A4B00B9F989 /* FilterCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCollectionViewCell.xib; sourceTree = "<group>"; };
 		7BF2044D231598E500B9F989 /* Loan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loan.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 		7BC6670122F34F61003BA9B8 /* iOU */ = {
 			isa = PBXGroup;
 			children = (
+				7BD4AF4C238305CA0038B64D /* Managers */,
 				7BF2044623156BC000B9F989 /* Models */,
 				7BF20443231565DC00B9F989 /* Extensions */,
 				7BC6673822F35C18003BA9B8 /* Fonts */,
@@ -375,6 +378,14 @@
 				7BC6675222F35C40003BA9B8 /* SF-Pro-Text-UltralightItalic.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		7BD4AF4C238305CA0038B64D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				7BD4AF4D238305E80038B64D /* LoanManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		7BF20443231565DC00B9F989 /* Extensions */ = {
@@ -677,6 +688,7 @@
 				7BF2044E231598E500B9F989 /* Loan.swift in Sources */,
 				7BC6679522F35C56003BA9B8 /* TotalBalanceCollectionViewCell.swift in Sources */,
 				7BF204512315A8BF00B9F989 /* EditDetailCollectionViewCell.swift in Sources */,
+				7BD4AF4E238305E80038B64D /* LoanManager.swift in Sources */,
 				7BC667A122F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift in Sources */,
 				7BF2044B23157A4B00B9F989 /* FilterCollectionViewCell.swift in Sources */,
 				7BC6670B22F34F61003BA9B8 /* iOU.xcdatamodeld in Sources */,

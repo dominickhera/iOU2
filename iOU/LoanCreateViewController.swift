@@ -51,10 +51,6 @@ class LoanCreateViewController: UIViewController {
         let reasonCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as! LoanCreateDetailCollectionViewCell
         let lendeeCell = collectionView.cellForItem(at: IndexPath(row: 1, section: 0)) as! LoanCreateDetailCollectionViewCell
         let dueDateCell = collectionView.cellForItem(at: IndexPath(row: 2, section: 0)) as! LoanCreateDetailCollectionViewCell
-//        print("amount owed: >\(amountOwedTextField.text)<")
-//        print("reason: >\(reasonCell.detailBodyTextField.text)<")
-//        print("lendee: >\(lendeeCell.detailBodyTextField.text)<")
-//        print("due date: >\(dueDateCell.detailBodyTextField.text)<")
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Loan", in: context)
@@ -78,12 +74,13 @@ class LoanCreateViewController: UIViewController {
         } catch {
             print("failiure")
         }
+        LoanManager.shared.retrieveLoanList()
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelCreateNewLoan(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
         
         dismiss(animated: true, completion: nil)
     }
