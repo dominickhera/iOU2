@@ -8,6 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		1BF7900AD8F29DF4EA0049F0 /* Pods_iOU.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F54217DE7E8B94A066711BB7 /* Pods_iOU.framework */; };
+		25B327E32475B130006FC044 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6670422F34F61003BA9B8 /* ViewController.swift */; };
+		25B327E42475B133006FC044 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679722F35FA6003BA9B8 /* MainViewController.swift */; };
+		25B327E52475B137006FC044 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6670622F34F61003BA9B8 /* Main.storyboard */; };
+		25B327E62475B139006FC044 /* LoanCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B597863230D61D700766607 /* LoanCreateViewController.swift */; };
+		25B327E72475B13C006FC044 /* LoanDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679D22F399EF003BA9B8 /* LoanDetailViewController.swift */; };
+		25B327E82475B155006FC044 /* LoanCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B59785F230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift */; };
+		25B327E92475B158006FC044 /* LoanCreateDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B597860230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib */; };
+		25B327EA2475B15F006FC044 /* LoanDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679F22F39BB7003BA9B8 /* LoanDetailCollectionViewCell.swift */; };
+		25B327EB2475B163006FC044 /* LoanDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC667A022F39BB7003BA9B8 /* LoanDetailCollectionViewCell.xib */; };
+		25B327EC2475B166006FC044 /* AddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6673422F35A06003BA9B8 /* AddCollectionViewCell.swift */; };
+		25B327ED2475B169006FC044 /* AddCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6673522F35A06003BA9B8 /* AddCollectionViewCell.xib */; };
+		25B327EE2475B16B006FC044 /* TotalBalanceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679322F35C56003BA9B8 /* TotalBalanceCollectionViewCell.swift */; };
+		25B327EF2475B16E006FC044 /* LoanCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6679922F36CB1003BA9B8 /* LoanCollectionViewCell.swift */; };
+		25B327F02475B171006FC044 /* LoanCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6679A22F36CB1003BA9B8 /* LoanCollectionViewCell.xib */; };
+		25B327F12475B174006FC044 /* TotalBalanceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BC6679422F35C56003BA9B8 /* TotalBalanceCollectionViewCell.xib */; };
+		25B327F22475B182006FC044 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6670222F34F61003BA9B8 /* AppDelegate.swift */; };
 		7B597861230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B59785F230C9B6200766607 /* LoanCreateDetailCollectionViewCell.swift */; };
 		7B597862230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B597860230C9B6200766607 /* LoanCreateDetailCollectionViewCell.xib */; };
 		7B597864230D61D700766607 /* LoanCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B597863230D61D700766607 /* LoanCreateViewController.swift */; };
@@ -581,6 +597,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B327EB2475B163006FC044 /* LoanDetailCollectionViewCell.xib in Resources */,
+				25B327E52475B137006FC044 /* Main.storyboard in Resources */,
+				25B327F12475B174006FC044 /* TotalBalanceCollectionViewCell.xib in Resources */,
+				25B327F02475B171006FC044 /* LoanCollectionViewCell.xib in Resources */,
+				25B327ED2475B169006FC044 /* AddCollectionViewCell.xib in Resources */,
+				25B327E92475B158006FC044 /* LoanCreateDetailCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,6 +729,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B327F22475B182006FC044 /* AppDelegate.swift in Sources */,
+				25B327EF2475B16E006FC044 /* LoanCollectionViewCell.swift in Sources */,
+				25B327E42475B133006FC044 /* MainViewController.swift in Sources */,
+				25B327E82475B155006FC044 /* LoanCreateDetailCollectionViewCell.swift in Sources */,
+				25B327EE2475B16B006FC044 /* TotalBalanceCollectionViewCell.swift in Sources */,
+				25B327EA2475B15F006FC044 /* LoanDetailCollectionViewCell.swift in Sources */,
+				25B327E32475B130006FC044 /* ViewController.swift in Sources */,
+				25B327E72475B13C006FC044 /* LoanDetailViewController.swift in Sources */,
+				25B327E62475B139006FC044 /* LoanCreateViewController.swift in Sources */,
+				25B327EC2475B166006FC044 /* AddCollectionViewCell.swift in Sources */,
 				7BC6672622F34F62003BA9B8 /* iOUUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

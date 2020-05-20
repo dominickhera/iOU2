@@ -25,8 +25,7 @@ class LoanCreateViewController: UIViewController {
     var loanCreateCellIdentifier = "LoanCreateDetailCollectionViewCell"
     private let animations = [AnimationType.from(direction: .bottom, offset: 100.0)]
     let loanTitles: [String] = ["Reason", "Lendee", "Due Date"]
-    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25, 2019"]
-
+    let loanDetails: [String] = ["Lunch with friends", "John Doe", "August 25th, 2019"]
     override func viewDidLoad() {
         super.viewDidLoad()
         let createNib = UINib(nibName: loanCreateCellIdentifier, bundle: nil)
